@@ -1,0 +1,58 @@
+Project notes.
+
+This is not the best demonstration of SAWJ as its on Disassortative bipartite graphs where SAWJ performs better if the graphs as assumed to be assortative.
+
+######################################################################################################################
+
+scrape_imdb_70.py
+
+searches imdb for the films with the following parameters
+
+release data: 1970-01-01 to 1990-12-31
+number of votes: 1000+
+production status: released
+results per page: 100
+
+imdb only allows one to "next" through 100 pages at a time, which is why I specified the year ranges.
+
+Dependencies:
+lxml
+selenium
+Chrome webdriver
+
+if imdb changes their layout and the xpaths since the original scrape (Dec. 2016) this script will no longer work.
+
+######################################################################################################################
+
+npy_combine.py
+
+combines all the data from the year ranges stripped off imdb
+
+######################################################################################################################
+
+pickle_imdb_graph.py 
+
+is a bunch of helper functions for building a graph from the imdb data.
+
+######################################################################################################################
+
+imdb_graph.py
+
+takes that data scraped from imdb and turns it into a graph and pickles the graph using pickle_imdb_graph.py.
+Each node in the graph is a film or an actor. The graph is bipartite with edges representing movies an actor stared in.
+
+######################################################################################################################
+
+imdb_search.py
+
+compares several graph search strategies in particular SAWJ which works well on sparse assortative graphs "The self-avoiding walk-jump (SAWJ) algorithm for finding maximum degree nodes in large graphs" - Stokes and Weber, IEEE BigData 2016. See StoWeb2016.pdf included.
+
+
+NOTE: Notice assortativity is set to alpha > 0. While the assortativity of a_deg and a_votes graphs are slightly disassortative, it is assumed the high degree or popular movies have high degree or popular actors and therefore the nodes SAWJ is likely to traverse are assortative. I think fact that the fundamental problem is that assortativity is to crude a metric for graph topology to determine the optimal random walk parameterization. 
+
+degree -> is the number of edges incident at a node.
+
+vote_w -> is the total votes for a film or for all the films an actor stared in.
+
+######################################################################################################################
+
